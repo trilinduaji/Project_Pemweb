@@ -1,0 +1,342 @@
+
+
+
+[data-aos] {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+}
+[data-aos="zoom-in"] { transform: scale(0.94); }
+[data-aos="fade-down"] { transform: translateY(-14px); }
+[data-aos].aos-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+
+.rk-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+}
+.rk-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: #0d1b3e;
+    margin: 0 0 4px;
+}
+.rk-sub {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin: 0;
+    max-width: 480px;
+    line-height: 1.5;
+}
+.rk-btn-add {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+.btn-icon {
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+
+.rk-empty-notice {
+    text-align: center;
+    padding: 56px 24px;
+    background: #fff;
+    border-radius: 14px;
+    border: 1px dashed #e5e7eb;
+}
+.rk-empty-icon {
+    font-size: 2.8rem;
+    margin-bottom: 14px;
+    line-height: 1;
+}
+.rk-empty-notice p {
+    color: #6b7280;
+    font-size: 0.88rem;
+    line-height: 1.7;
+    margin: 0 0 20px;
+}
+
+
+.rk-programs {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+.rk-program-block {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: box-shadow 0.3s ease;
+}
+.rk-program-block:hover {
+    box-shadow: 0 6px 24px rgba(13,27,62,0.08);
+}
+.rk-program-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #0d1b3e 0%, #1e3a5f 100%);
+    color: #fff;
+}
+.rk-program-badge {
+    background: rgba(255,255,255,0.18);
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+}
+.rk-program-name {
+    flex: 1;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+.rk-member-count {
+    background: rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 3px 11px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+
+.rk-member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 16px;
+    padding: 18px 20px 20px;
+}
+.rk-member-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    cursor: default;
+}
+.rk-card-self {
+    background: #f0fdf4;
+    border-color: #a7f3d0;
+}
+
+
+.rk-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    transition: transform 0.2s ease;
+}
+.rk-member-card:hover .rk-avatar {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+
+.rk-member-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.rk-member-name {
+    font-size: 0.9rem;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.rk-badge-self {
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.62rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.rk-member-email {
+    font-size: 0.73rem;
+    color: #6b7280;
+}
+.rk-role-pill {
+    display: inline-block;
+    background: #ede9fe;
+    color: #5b21b6;
+    font-size: 0.66rem;
+    font-weight: 600;
+    padding: 2px 9px;
+    border-radius: 20px;
+    margin-top: 2px;
+    width: fit-content;
+}
+.rk-card-self .rk-role-pill {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+
+.rk-member-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
+    margin-top: 2px;
+}
+.rk-added-by, .rk-joined {
+    font-size: 0.68rem;
+    color: #9ca3af;
+}
+.rk-added-by em { font-style: normal; color: #6b7280; font-weight: 500; }
+
+
+.rk-remove-form { position: absolute; top: 12px; right: 12px; }
+.rk-btn-remove {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: none;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s, transform 0.2s;
+}
+.rk-member-card:hover .rk-btn-remove { opacity: 1; }
+.rk-btn-remove:hover {
+    background: #dc2626;
+    color: #fff;
+    transform: scale(1.15);
+}
+
+
+.rk-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 27, 62, 0.45);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(3px);
+}
+.rk-modal-overlay.active { display: flex; }
+
+.rk-modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    margin: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    transform: scale(0.92) translateY(20px);
+    opacity: 0;
+    transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), opacity 0.22s ease;
+}
+.rk-modal.entered {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.rk-modal-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #f3f4f6;
+}
+.rk-modal-head h4 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: #0d1b3e;
+}
+.rk-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+.rk-modal-close:hover { background: #f3f4f6; color: #374151; }
+
+
+.rk-form { padding: 20px 24px 24px; display: flex; flex-direction: column; gap: 16px; }
+.rk-field { display: flex; flex-direction: column; gap: 6px; }
+.rk-field label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #374151;
+}
+.rk-field select,
+.rk-field input {
+    padding: 10px 12px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    color: #111827;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+.rk-field select:focus,
+.rk-field input:focus {
+    border-color: #0d1b3e;
+    box-shadow: 0 0 0 3px rgba(13,27,62,0.08);
+    background: #fff;
+}
+
+.rk-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 4px;
+}
+
+
+@media (max-width: 600px) {
+    .rk-header { flex-direction: column; }
+    .rk-member-grid { grid-template-columns: 1fr; }
+    .rk-program-head { flex-wrap: wrap; }
+}
