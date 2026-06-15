@@ -1,0 +1,26 @@
+
+.profile-photo-preview {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #e2e8f0;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.profile-photo-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-photo-preview .placeholder {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: white;
+}

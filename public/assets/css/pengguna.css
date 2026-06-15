@@ -1,0 +1,22 @@
+
+.filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.filter-bar input[type="text"],
+.filter-bar select {
+    padding: 7px 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.78rem;
+    color: var(--navy);
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.filter-bar input[type="text"] {
+    width: 200px;
+}
