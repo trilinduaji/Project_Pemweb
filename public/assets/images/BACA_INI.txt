@@ -1,0 +1,14 @@
+Gambar utama SIPEDO:
+
+  hero.jpg                  -> banner utama landing page
+  beasiswa-anak-yatim.jpg   -> gambar program Beasiswa Anak Yatim
+  renovasi-panti-asuhan.jpg -> gambar program Renovasi Panti Asuhan
+  bantuan-bencana-alam.jpg  -> gambar program Bantuan Bencana Alam
+  pengobatan-gratis.jpg     -> gambar program Pengobatan Gratis
+
+Catatan:
+- Program baru yang ditambahkan lewat menu Staff/Admin bisa upload gambar sendiri.
+- Path gambar program disimpan di database kolom programs.image.
+- Jika program ditambah/dihapus/ditutup, tampilan landing, donatur, staff, dan admin otomatis mengikuti data program.
+- Ukuran gambar program yang disarankan: 16:9, contoh 800x450 atau 1200x675.
+- Ukuran hero yang disarankan: 1280x600 atau 1920x800.
