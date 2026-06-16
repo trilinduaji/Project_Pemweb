@@ -35,6 +35,10 @@ $backPage = match ($role) {
     'admin' => 'program-admin',
     default => 'program-donatur',
 };
+$fromPage = $_GET['from'] ?? '';
+if ($role === 'staff' && $fromPage === 'draft-program') {
+    $backPage = 'draft-program';
+}
 ?>
 <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
     <a class="btn light" href="index.php?route=app&page=<?= e($backPage) ?>">← Kembali ke Daftar Program</a>
@@ -46,6 +50,11 @@ $backPage = match ($role) {
                     <input type="hidden" name="action" value="close">
                     <input type="hidden" name="id" value="<?= e($program['id']) ?>">
                     <button class="btn amber" type="submit">Tutup Program</button>
+                </form>
+            <?php elseif ($program['status'] === 'inactive'): ?>
+                <form action="index.php?route=program/publish" method="post" onsubmit="return confirm('Publikasikan program <?= e($program['name']) ?>?');">
+                    <input type="hidden" name="id" value="<?= e($program['id']) ?>">
+                    <button class="btn green" type="submit">Publish Program</button>
                 </form>
             <?php endif; ?>
         </div>
@@ -62,6 +71,11 @@ $backPage = match ($role) {
                 <form action="index.php?route=program/reopen" method="post" onsubmit="return confirm('Buka kembali program <?= e($program['name']) ?>?');">
                     <input type="hidden" name="id" value="<?= e($program['id']) ?>">
                     <button class="btn green" type="submit">Buka Kembali</button>
+                </form>
+            <?php elseif ($program['status'] === 'inactive'): ?>
+                <form action="index.php?route=program/publish" method="post" onsubmit="return confirm('Publikasikan program <?= e($program['name']) ?>?');">
+                    <input type="hidden" name="id" value="<?= e($program['id']) ?>">
+                    <button class="btn green" type="submit">Publish Program</button>
                 </form>
             <?php endif; ?>
             <form action="index.php?route=program/delete" method="post" onsubmit="return confirm('Hapus program <?= e($program['name']) ?>?');">
@@ -84,7 +98,7 @@ $backPage = match ($role) {
     <div class="pd-body">
         <div class="pd-meta-row">
             <span class="pd-cat"><?= e($program['cat']) ?></span>
-            <?= badge($program['status']) ?>
+            <?= program_badge($program['status']) ?>
         </div>
         <h1 class="pd-title"><?= e($program['name']) ?></h1>
         <p class="pd-deadline">Tenggat: <strong><?= e($program['deadline']) ?></strong></p>
