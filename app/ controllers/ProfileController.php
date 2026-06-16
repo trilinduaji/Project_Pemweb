@@ -6,6 +6,7 @@ class ProfileController {
         $user  = current_user();
         $email = $user['email'] ?? '';
         $role  = current_role();
+        require_active_staff_action('profil-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa mengubah profil.');
 
 
         $allowedActions = ['update_profile', 'change_password'];
