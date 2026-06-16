@@ -68,7 +68,7 @@ $visible = array_filter($programs, function ($p) use ($q, $statusFilt, $catFilt)
                     <td>Rp <?= e($p['target']) ?> Jt</td>
                     <td class="amount">Rp <?= e($p['collected']) ?> Jt</td>
                     <td><?= progress_bar($p['pct']) ?></td>
-                    <td><?= badge($p['status']) ?></td>
+                    <td><?= program_badge($p['status']) ?></td>
                     <td class="actions">
                         <?php if ($p['status'] === 'active'): ?>
                             <form action="index.php?route=program/close" method="post">
