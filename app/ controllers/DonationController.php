@@ -20,6 +20,11 @@ class DonationController {
             redirect_to(app_url('verifikasi'));
         }
 
+        if (!DonationModel::canProcess($id)) {
+            flash('Kamu hanya bisa memverifikasi donasi dari program yang kamu kelola atau program tempat kamu menjadi anggota.', 'error');
+            redirect_to(app_url($role === 'staff' ? 'verifikasi' : 'rekap-donasi'));
+        }
+
         // Catatan wajib diisi saat menolak donasi
         if ($action === 'reject' && $note === '') {
             flash('Alasan penolakan wajib diisi sebelum menolak donasi.', 'error');
