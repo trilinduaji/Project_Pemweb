@@ -21,6 +21,7 @@ Router::post('donation/reject', fn() => (new DonationController)->verify());
 
 Router::post('program/add',    fn() => (new ProgramController)->add());
 Router::post('program/edit',   fn() => (new ProgramController)->edit());
+Router::post('program/publish', fn() => (new ProgramController)->publish());
 Router::post('program/close',  fn() => (new ProgramController)->close());
 Router::post('program/reopen', fn() => (new ProgramController)->reopen());
 Router::post('program/delete', fn() => (new ProgramController)->delete());
