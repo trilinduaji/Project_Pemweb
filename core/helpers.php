@@ -74,6 +74,16 @@ function badge(string $status): string {
     return '<span class="badge badge-' . e($status) . '">' . e($labels[$status] ?? $status) . '</span>';
 }
 
+function program_badge(string $status): string {
+    $labels = [
+        'active'   => 'Aktif',
+        'inactive' => 'Draft',
+        'closed'   => 'Selesai',
+        'deleted'  => 'Dihapus',
+    ];
+    return '<span class="badge badge-' . e($status) . '">' . e($labels[$status] ?? $status) . '</span>';
+}
+
 function avatar(string $initials, string $color): string {
     return '<span class="avatar" style="background:' . e($color) . '">' . e($initials) . '</span>';
 }
