@@ -24,6 +24,18 @@ function require_login(): void {
     }
 }
 
+function staff_is_inactive(): bool {
+    if (current_role() !== 'staff') return false;
+    return !StaffModel::isActiveUser((int)(current_user()['db_id'] ?? 0));
+}
+
+function require_active_staff_action(string $redirectPage, string $message = ''): void {
+    if (!staff_is_inactive()) return;
+
+    flash($message !== '' ? $message : 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa melakukan aksi perubahan.', 'error');
+    redirect_to(app_url($redirectPage));
+}
+
 function flash(string $message, string $type = 'success'): void {
     $_SESSION['flash'] = ['message' => $message, 'type' => $type];
 }
