@@ -95,3 +95,4 @@ $visible = array_filter($programs, function ($p) use ($q, $statusFilt, $catFilt)
         </tbody>
     </table>
 </div>
+    
