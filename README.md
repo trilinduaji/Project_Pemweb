@@ -54,10 +54,3 @@ sipedo_mvc/
 | Admin   | admin@s.id  | 123      |
 | Staff   | staff@s.id  | 123      |
 | Donatur | don@s.id    | 123      |
-
-## Cara Menjalankan
-Jalankan dengan PHP built-in server dari root folder:
-```
-php -S localhost:8000
-```
-Lalu buka: http://localhost:8000
