@@ -66,7 +66,7 @@ $totalPenggunaFmt = $totalPengguna >= 1000
                 <?php if ($programImage !== ''): ?>
                     <img src="<?= e(pub($programImage)) ?>" alt="<?= e($p['name']) ?>">
                 <?php endif; ?>
-                <div class="pc-banner-badge"><?= badge($p['status']) ?></div>
+                <div class="pc-banner-badge"><?= program_badge($p['status']) ?></div>
             </div>
             <div class="pc-body">
                 <h4 class="pc-title"><?= e($p['name']) ?></h4>
