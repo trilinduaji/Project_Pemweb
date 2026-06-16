@@ -81,6 +81,7 @@ class StaffController {
             flash('Hanya staff yang dapat menambahkan rekan.', 'error');
             redirect_to(app_url());
         }
+        require_active_staff_action('rekan-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menambahkan rekan program.');
 
         $programId     = (int)($_POST['program_id']    ?? 0);
         $rekanUserId   = (int)($_POST['rekan_user_id'] ?? 0);
@@ -115,6 +116,7 @@ class StaffController {
             flash('Hanya staff yang dapat mengelola rekan.', 'error');
             redirect_to(app_url());
         }
+        require_active_staff_action('rekan-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menghapus rekan program.');
 
         $psId    = (int)($_POST['ps_id'] ?? 0);
         $actorId = (int)(current_user()['db_id'] ?? 0);

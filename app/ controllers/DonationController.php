@@ -11,6 +11,8 @@ class DonationController {
             redirect_to(app_url('riwayat-donasi'));
         }
 
+        require_active_staff_action('verifikasi', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa memverifikasi donasi.');
+
         $id     = $_POST['id']     ?? '';
         $action = $_POST['action'] ?? '';
 
@@ -48,6 +50,7 @@ class DonationController {
 
     public function donate(): void {
         require_login();
+        require_active_staff_action('dash-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa melakukan aksi donasi.');
 
         $amount    = (int) ($_POST['amount']     ?? 0);
         $programId = $_POST['program_id']        ?? '';

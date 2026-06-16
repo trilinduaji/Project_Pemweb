@@ -9,6 +9,7 @@ class ProgramController {
             redirect_to(app_url('dashboard'));
             return;
         }
+        require_active_staff_action('tambah-program', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menambahkan program baru.');
         $role         = current_role();
         $redirectPage = $role === 'staff' ? 'program-staff' : 'program-admin';
 
@@ -60,6 +61,7 @@ class ProgramController {
             redirect_to(app_url('dashboard'));
             return;
         }
+        require_active_staff_action('program-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa mengubah program.');
         $id          = $_POST['id']               ?? '';
         $name        = trim($_POST['name']        ?? '');
         $category    = $_POST['category']         ?? 'Sosial';
@@ -119,6 +121,7 @@ class ProgramController {
             redirect_to(app_url('dashboard'));
             return;
         }
+        require_active_staff_action('draft-program', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa mempublikasikan program.');
 
         $id = $_POST['id'] ?? '';
         if (!ProgramModel::canManage($id)) {
@@ -146,6 +149,7 @@ class ProgramController {
             redirect_to(app_url('dashboard'));
             return;
         }
+        require_active_staff_action('program-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menutup program.');
         $id   = $_POST['id'] ?? '';
         if (!ProgramModel::canManage($id)) {
             flash('Kamu tidak memiliki izin menutup program ini.', 'error');
@@ -179,6 +183,7 @@ class ProgramController {
             redirect_to(app_url('dashboard'));
             return;
         }
+        require_active_staff_action('program-staff', 'Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menghapus program.');
         $id   = $_POST['id'] ?? '';
         if (!ProgramModel::canManage($id)) {
             flash('Kamu tidak memiliki izin menghapus program ini.', 'error');
