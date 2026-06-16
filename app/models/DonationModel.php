@@ -26,6 +26,37 @@ class DonationModel {
         return array_values(array_filter(self::all(), fn($d) => ($d['donor'] ?? '') === $donorName));
     }
 
+    public static function byStaff(int $staffUserId): array {
+        if ($staffUserId <= 0) return [];
+
+        $programs = ProgramModel::byStaff($staffUserId);
+        $programCodes = array_map(fn($p) => (string)($p['id'] ?? ''), $programs);
+        $programNums = array_map(fn($p) => (string)($p['num_id'] ?? ''), $programs);
+        $allowed = array_filter(array_unique(array_merge($programCodes, $programNums)));
+
+        if (empty($allowed)) return [];
+
+        return array_values(array_filter(self::all(), function($d) use ($allowed) {
+            $progId = (string)($d['progId'] ?? $d['program_id'] ?? '');
+            return in_array($progId, $allowed, true);
+        }));
+    }
+
+    public static function canProcess(string $id, ?array $user = null): bool {
+        $user = $user ?: current_user();
+        if (!$user) return false;
+        if (($user['role'] ?? current_role()) === 'admin') return true;
+        if (($user['role'] ?? current_role()) !== 'staff') return false;
+
+        $donation = self::findById($id);
+        if (!$donation) return false;
+
+        $programId = (string)($donation['progId'] ?? '');
+        if ($programId === '') return false;
+
+        return ProgramModel::canManage($programId, $user);
+    }
+
     public static function pending(): array {
         return array_values(array_filter(self::all(), fn($d) => ($d['status'] ?? '') === 'pending'));
     }
