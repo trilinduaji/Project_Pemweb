@@ -1,4 +1,7 @@
-<?php $done = array_filter($_SESSION['donations'], fn($d) => $d['status'] !== 'pending'); ?>
+<?php
+$myUserId = (int)(current_user()['db_id'] ?? 0);
+$done = array_filter(DonationModel::byStaff($myUserId), fn($d) => $d['status'] !== 'pending');
+?>
 <div class="section-head">
     <h3 class="section-title">Riwayat Verifikasi</h3>
 </div>

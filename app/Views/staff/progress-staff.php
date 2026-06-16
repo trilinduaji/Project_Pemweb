@@ -2,13 +2,12 @@
 // Ambil program milik staff ini
 $myUserId   = current_user()['db_id'] ?? 0;
 $myPrograms = ProgramModel::byStaff($myUserId);
-$myProgIds  = array_column($myPrograms, 'id');
+$myDonations = DonationModel::byStaff((int)$myUserId);
 
 // Bangun top donors dari donasi verified, khusus untuk program staff ini
 $donorMap = [];
-foreach ($_SESSION['donations'] ?? [] as $d) {
+foreach ($myDonations as $d) {
     if (($d['status'] ?? '') !== 'verified') continue;
-    if (!in_array($d['progId'] ?? '', $myProgIds, true)) continue;
     $key    = $d['donor'];
     $amount = (int) str_replace(['.', ','], ['', ''], $d['amount'] ?? '0');
     if (!isset($donorMap[$key])) {

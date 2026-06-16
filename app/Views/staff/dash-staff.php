@@ -1,9 +1,10 @@
 <?php
-$pending  = array_values(array_filter($_SESSION['donations'] ?? [], fn($d) => $d['status'] === 'pending'));
-$verified = array_values(array_filter($_SESSION['donations'] ?? [], fn($d) => $d['status'] === 'verified'));
-$rejected = array_values(array_filter($_SESSION['donations'] ?? [], fn($d) => $d['status'] === 'rejected'));
+$myUserId = (int)(current_user()['db_id'] ?? 0);
+$myDonations = DonationModel::byStaff($myUserId);
+$pending  = array_values(array_filter($myDonations, fn($d) => $d['status'] === 'pending'));
+$verified = array_values(array_filter($myDonations, fn($d) => $d['status'] === 'verified'));
+$rejected = array_values(array_filter($myDonations, fn($d) => $d['status'] === 'rejected'));
 
-$myUserId = current_user()['db_id'] ?? 0;
 $programs = ProgramModel::byStaff($myUserId);
 ?>
 
@@ -121,7 +122,7 @@ $programs = ProgramModel::byStaff($myUserId);
                 <?php if ($programImage !== ''): ?>
                     <img src="<?= e(pub($programImage)) ?>" alt="<?= e($p['name']) ?>">
                 <?php endif; ?>
-                <div class="pc-banner-badge"><?= badge($p['status']) ?></div>
+                <div class="pc-banner-badge"><?= program_badge($p['status']) ?></div>
             </div>
             <div class="pc-body">
                 <h4 class="pc-title"><?= e($p['name']) ?></h4>

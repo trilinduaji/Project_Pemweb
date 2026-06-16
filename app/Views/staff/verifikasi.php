@@ -1,5 +1,6 @@
 <?php
-$allDonations = $_SESSION['donations'] ?? [];
+$myUserId = (int)(current_user()['db_id'] ?? 0);
+$allDonations = DonationModel::byStaff($myUserId);
 $pendingCount = count(array_filter($allDonations, fn($d) => $d['status'] === 'pending'));
 
 
@@ -76,8 +77,8 @@ $visible = array_filter($allDonations, function($d) use ($filterStatus, $filterQ
         <tbody>
             <?php if (empty($visible)): ?>
                 <tr>
-                    <td colspan="8" style="text-align:center;color:#6b7280;padding:32px;">
-                        Tidak ada donasi yang sesuai filter.
+                    <td colspan="9" style="text-align:center;color:#6b7280;padding:32px;">
+                        Tidak ada donasi dari program yang kamu kelola atau sesuai filter.
                     </td>
                 </tr>
             <?php endif; ?>
