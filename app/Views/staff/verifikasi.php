@@ -1,5 +1,6 @@
 <?php
 $myUserId = (int)(current_user()['db_id'] ?? 0);
+$staffCanVerify = StaffModel::isActiveUser($myUserId);
 $allDonations = DonationModel::byStaff($myUserId);
 $pendingCount = count(array_filter($allDonations, fn($d) => $d['status'] === 'pending'));
 
@@ -15,6 +16,11 @@ $visible = array_filter($allDonations, function($d) use ($filterStatus, $filterQ
 });
 ?>
 
+<?php if (!$staffCanVerify): ?>
+    <div class="flash flash-error">
+        Status staff kamu sedang nonaktif. Kamu tetap bisa melihat data donasi, tetapi tidak bisa memverifikasi sampai admin mengaktifkan kembali akun staff kamu.
+    </div>
+<?php endif; ?>
 
 <div class="stats" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px;">
     <div class="card" style="border-left:4px solid #f59e0b;">
@@ -113,17 +119,31 @@ $visible = array_filter($allDonations, function($d) use ($filterStatus, $filterQ
                     <td class="actions">
                         <?php if ($d['status'] === 'pending'): ?>
 
-                            <button class="btn green" type="button"
-                                title="Terima donasi ini"
-                                onclick="sipedoShowVerifyForm('<?= e($d['id']) ?>', '<?= e(addslashes($d['donor'])) ?>')">
-                                ✓ Terima
-                            </button>
+                            <?php if ($staffCanVerify): ?>
+                                <button class="btn green" type="button"
+                                    title="Terima donasi ini"
+                                    onclick="sipedoShowVerifyForm('<?= e($d['id']) ?>', '<?= e(addslashes($d['donor'])) ?>')">
+                                    Terima
+                                </button>
 
-                            <button class="btn red" type="button"
-                                title="Tolak donasi ini"
-                                onclick="sipedoShowRejectForm('<?= e($d['id']) ?>', '<?= e(addslashes($d['donor'])) ?>')">
-                                ✕ Tolak
-                            </button>
+                                <button class="btn red" type="button"
+                                    title="Tolak donasi ini"
+                                    onclick="sipedoShowRejectForm('<?= e($d['id']) ?>', '<?= e(addslashes($d['donor'])) ?>')">
+                                    Tolak
+                                </button>
+                            <?php else: ?>
+                                <button class="btn green" type="button"
+                                    title="Status staff nonaktif"
+                                    onclick="sipedoShowInactiveStaffWarning()">
+                                    Terima
+                                </button>
+
+                                <button class="btn red" type="button"
+                                    title="Status staff nonaktif"
+                                    onclick="sipedoShowInactiveStaffWarning()">
+                                    Tolak
+                                </button>
+                            <?php endif; ?>
                         <?php else: ?>
                             <span class="muted" style="font-size:0.78rem;">
                                 <?= e($d['processedBy'] ?? '—') ?>
@@ -217,4 +237,8 @@ function sipedoHideRejectModal() {
 document.getElementById('sipedoRejectModal').addEventListener('click', function(e) {
     if (e.target === this) sipedoHideRejectModal();
 });
+
+function sipedoShowInactiveStaffWarning() {
+    alert('Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data donasi dan tidak bisa memverifikasi sampai admin mengaktifkan kembali akun staff kamu.');
+}
 </script>

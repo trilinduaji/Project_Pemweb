@@ -1,5 +1,6 @@
 <?php
 $myUserId = (int)(current_user()['db_id'] ?? 0);
+$staffCanVerify = StaffModel::isActiveUser($myUserId);
 $myDonations = DonationModel::byStaff($myUserId);
 $pending  = array_values(array_filter($myDonations, fn($d) => $d['status'] === 'pending'));
 $verified = array_values(array_filter($myDonations, fn($d) => $d['status'] === 'verified'));
@@ -8,6 +9,11 @@ $rejected = array_values(array_filter($myDonations, fn($d) => $d['status'] === '
 $programs = ProgramModel::byStaff($myUserId);
 ?>
 
+<?php if (!$staffCanVerify): ?>
+    <div class="flash flash-error">
+        Status staff kamu sedang nonaktif. Kamu tetap bisa melihat data donasi, tetapi tidak bisa memverifikasi sampai admin mengaktifkan kembali akun staff kamu.
+    </div>
+<?php endif; ?>
 
 <div class="stats">
     <div class="card" style="border-left:4px solid #f59e0b;">
@@ -82,23 +88,28 @@ $programs = ProgramModel::byStaff($myUserId);
                     </td>
                     <td class="actions">
 
-                        <form action="index.php?route=donation/verify" method="post" style="display:inline;">
-                            <input type="hidden" name="action" value="verify">
-                            <input type="hidden" name="id" value="<?= e($d['id']) ?>">
-                            <button class="btn green" type="submit"
-                                onclick="return confirm('Terima donasi #<?= e($d['id']) ?> dari <?= e($d['donor']) ?>?')">
-                                ✓ Terima
-                            </button>
-                        </form>
+                        <?php if ($staffCanVerify): ?>
+                            <form action="index.php?route=donation/verify" method="post" style="display:inline;">
+                                <input type="hidden" name="action" value="verify">
+                                <input type="hidden" name="id" value="<?= e($d['id']) ?>">
+                                <button class="btn green" type="submit"
+                                    onclick="return confirm('Terima donasi #<?= e($d['id']) ?> dari <?= e($d['donor']) ?>?')">
+                                    Terima
+                                </button>
+                            </form>
 
-                        <form action="index.php?route=donation/verify" method="post" style="display:inline;">
-                            <input type="hidden" name="action" value="reject">
-                            <input type="hidden" name="id" value="<?= e($d['id']) ?>">
-                            <button class="btn red" type="submit"
-                                onclick="return confirm('Tolak donasi #<?= e($d['id']) ?> dari <?= e($d['donor']) ?>?')">
-                                ✕ Tolak
-                            </button>
-                        </form>
+                            <form action="index.php?route=donation/verify" method="post" style="display:inline;">
+                                <input type="hidden" name="action" value="reject">
+                                <input type="hidden" name="id" value="<?= e($d['id']) ?>">
+                                <button class="btn red" type="submit"
+                                    onclick="return confirm('Tolak donasi #<?= e($d['id']) ?> dari <?= e($d['donor']) ?>?')">
+                                    Tolak
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <button class="btn green" type="button" onclick="sipedoShowInactiveStaffWarning()">Terima</button>
+                            <button class="btn red" type="button" onclick="sipedoShowInactiveStaffWarning()">Tolak</button>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -144,3 +155,9 @@ $programs = ProgramModel::byStaff($myUserId);
         </a>
     <?php endforeach; ?>
 </div>
+
+<script>
+function sipedoShowInactiveStaffWarning() {
+    alert('Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data donasi dan tidak bisa memverifikasi sampai admin mengaktifkan kembali akun staff kamu.');
+}
+</script>

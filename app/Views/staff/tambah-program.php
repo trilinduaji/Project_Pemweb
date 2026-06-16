@@ -2,11 +2,18 @@
 // Baca flag deadline error dari session key terpisah (tidak ditimpa oleh show_flash())
 $showDeadlinePopup = !empty($_SESSION['sipedo_deadline_error']);
 unset($_SESSION['sipedo_deadline_error']);
+$staffCanAddProgram = StaffModel::isActiveUser((int)(current_user()['db_id'] ?? 0));
 ?>
 
 <div class="section-head">
     <h3 class="section-title">Tambah Program Donasi Baru</h3>
 </div>
+
+<?php if (!$staffCanAddProgram): ?>
+    <div class="flash flash-error">
+        Status staff kamu sedang nonaktif. Kamu tetap bisa melihat halaman ini, tetapi tidak bisa menambahkan program baru sampai admin mengaktifkan kembali akun staff kamu.
+    </div>
+<?php endif; ?>
 
 <div class="panel" style="padding:24px;">
     <form action="index.php?route=program/add" method="post" enctype="multipart/form-data"
@@ -123,10 +130,15 @@ unset($_SESSION['sipedo_deadline_error']);
 (function () {
     var today = new Date();
     today.setHours(0, 0, 0, 0);
+    var staffCanAddProgram = <?= $staffCanAddProgram ? 'true' : 'false' ?>;
 
     function showModal() {
         var m = document.getElementById('modalDeadlinePast');
         m.style.display = 'flex';
+    }
+
+    function showInactiveStaffWarning() {
+        alert('Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa menambahkan program baru sampai admin mengaktifkan kembali akun staff kamu.');
     }
 
 
@@ -141,6 +153,11 @@ unset($_SESSION['sipedo_deadline_error']);
 
 
     document.getElementById('formTambahProgram').addEventListener('submit', function (e) {
+        if (!staffCanAddProgram) {
+            e.preventDefault();
+            showInactiveStaffWarning();
+            return;
+        }
         var val = document.getElementById('inputDeadline').value;
         if (!val) return;
         var chosen = new Date(val);
