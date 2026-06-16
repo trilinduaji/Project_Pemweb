@@ -47,6 +47,7 @@ class DonationModel {
         if (!$user) return false;
         if (($user['role'] ?? current_role()) === 'admin') return true;
         if (($user['role'] ?? current_role()) !== 'staff') return false;
+        if (!StaffModel::isActiveUser((int)($user['db_id'] ?? 0))) return false;
 
         $donation = self::findById($id);
         if (!$donation) return false;
@@ -129,9 +130,9 @@ class DonationModel {
                 $amount = self::rupiahToNumber($donation['amount'] ?? 0);
                 $progKode = $conn->real_escape_string($donation['progId'] ?? '');
                 if ($status === 'verified' && $oldStatus !== 'verified') {
-                    $conn->query("UPDATE programs SET collected = collected + {$amount}, pct = CASE WHEN target > 0 THEN ROUND(((collected + {$amount}) / target) * 100, 2) ELSE 0 END WHERE kode='{$progKode}'");
+                    $conn->query("UPDATE programs SET collected = collected + {$amount}, pct = CASE WHEN target > 0 THEN LEAST(100, ROUND(((collected + {$amount}) / target) * 100, 2)) ELSE 0 END WHERE kode='{$progKode}'");
                 } elseif ($oldStatus === 'verified' && $status !== 'verified') {
-                    $conn->query("UPDATE programs SET collected = GREATEST(collected - {$amount}, 0), pct = CASE WHEN target > 0 THEN ROUND((GREATEST(collected - {$amount}, 0) / target) * 100, 2) ELSE 0 END WHERE kode='{$progKode}'");
+                    $conn->query("UPDATE programs SET collected = GREATEST(collected - {$amount}, 0), pct = CASE WHEN target > 0 THEN LEAST(100, ROUND((GREATEST(collected - {$amount}, 0) / target) * 100, 2)) ELSE 0 END WHERE kode='{$progKode}'");
                 }
             }
             self::refresh();
@@ -156,7 +157,7 @@ class DonationModel {
                                 $prog['collected'] = max(0, round(((float)$prog['collected']) - ($amount / 1000000), 6));
                             }
                             $target = (float)($prog['target'] ?? 0);
-                            $prog['pct'] = $target > 0 ? round((((float)$prog['collected']) / $target) * 100, 1) : 0;
+                            $prog['pct'] = $target > 0 ? min(100, round((((float)$prog['collected']) / $target) * 100, 1)) : 0;
                             break;
                         }
                     }

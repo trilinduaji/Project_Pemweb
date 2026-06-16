@@ -12,6 +12,26 @@ class StaffModel {
         return null;
     }
 
+    public static function isActiveUser(int $userId): bool {
+        if ($userId <= 0) return false;
+
+        if (db_ready()) {
+            $conn = db();
+            $stmt = $conn->prepare("SELECT status FROM staff_profiles WHERE user_id=? LIMIT 1");
+            $stmt->bind_param('i', $userId);
+            $stmt->execute();
+            $row = $stmt->get_result()->fetch_assoc();
+            return !$row || ($row['status'] ?? '') === 'active';
+        }
+
+        foreach ($_SESSION['staffList'] ?? [] as $staff) {
+            if ((int)($staff['user_id'] ?? 0) === $userId) {
+                return ($staff['status'] ?? '') === 'active';
+            }
+        }
+        return true;
+    }
+
     public static function create(string $name, string $email): void {
         if (db_ready()) {
             $conn = db();

@@ -167,7 +167,7 @@ class ProgramModel {
             $_SESSION['programs'][$i]['status'] = $status;
             $_SESSION['programs'][$i]['target'] = ((float)$data['target']) / 1000000;
             $targetJuta = (float)$_SESSION['programs'][$i]['target'];
-            $_SESSION['programs'][$i]['pct'] = $targetJuta > 0 ? round(((float)$_SESSION['programs'][$i]['collected'] / $targetJuta) * 100, 1) : 0;
+            $_SESSION['programs'][$i]['pct'] = $targetJuta > 0 ? min(100, round(((float)$_SESSION['programs'][$i]['collected'] / $targetJuta) * 100, 1)) : 0;
             if (!empty($data['image'])) $_SESSION['programs'][$i]['image'] = $data['image'];
             return true;
         }
