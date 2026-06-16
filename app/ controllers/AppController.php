@@ -21,6 +21,7 @@ class AppController {
                 'dash-staff'    => 'Dashboard',
                 'verifikasi'    => 'Verifikasi Donasi',
                 'program-staff' => 'Program Bantuan',
+                'draft-program' => 'Draft Program',
                 'tambah-program'=> 'Tambah Program',
                 'rekan-staff'   => 'Rekan Se-Program',
                 'progress-staff'=> 'Progress & Donatur',
@@ -50,6 +51,7 @@ class AppController {
         'dash-staff'    => 'Dashboard Staff',
         'verifikasi'    => 'Panel Verifikasi Donasi',
         'program-staff' => 'Program Bantuan',
+        'draft-program' => 'Draft Program',
         'tambah-program'=> 'Tambah Program Baru',
         'edit-program'  => 'Edit Program',
         'rekan-staff'   => 'Rekan Se-Program',
@@ -74,7 +76,7 @@ class AppController {
         $titles      = $this->titles;
 
 
-        $staffOnlyPages  = ['verifikasi','dash-staff','program-staff','tambah-program',
+        $staffOnlyPages  = ['verifikasi','dash-staff','program-staff','draft-program','tambah-program',
                             'edit-program','rekan-staff','progress-staff','riwayat-staff','profil-staff'];
         $adminOnlyPages  = ['dash-admin','pengguna','program-admin','rekap-donasi',
                             'log','laporan','pengaturan','profil-admin'];
@@ -119,7 +121,7 @@ class AppController {
     private function resolveViewDir(string $role, string $page): string {
 
         $adminPages  = ['dash-admin','pengguna','program-admin','rekap-donasi','log','laporan','pengaturan','profil-admin'];
-        $staffPages  = ['dash-staff','verifikasi','program-staff','tambah-program','edit-program','rekan-staff','progress-staff','riwayat-staff','profil-staff'];
+        $staffPages  = ['dash-staff','verifikasi','program-staff','draft-program','tambah-program','edit-program','rekan-staff','progress-staff','riwayat-staff','profil-staff'];
         $donaturPages= ['dash-donatur','program-donatur','riwayat-donasi','profil-donatur'];
 
         if (in_array($page, $adminPages,   true)) return 'admin';
@@ -136,4 +138,3 @@ class AppController {
         };
     }
 }
-
