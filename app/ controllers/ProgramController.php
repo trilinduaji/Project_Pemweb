@@ -111,6 +111,33 @@ class ProgramController {
         redirect_to(app_url('program-detail&id=' . $id));
     }
 
+    public function publish(): void {
+        require_login();
+        $role = current_role();
+        if (!in_array($role, ['admin', 'staff'], true)) {
+            flash('Anda tidak memiliki izin untuk mempublikasikan program.', 'error');
+            redirect_to(app_url('dashboard'));
+            return;
+        }
+
+        $id = $_POST['id'] ?? '';
+        if (!ProgramModel::canManage($id)) {
+            flash('Kamu tidak memiliki izin mempublikasikan program ini.', 'error');
+            redirect_to(app_url($role === 'staff' ? 'draft-program' : 'program-admin'));
+        }
+
+        $program = ProgramModel::findById($id);
+        if (!$program || ($program['status'] ?? '') === 'deleted') {
+            flash('Program tidak ditemukan.', 'error');
+            redirect_to(app_url($role === 'staff' ? 'draft-program' : 'program-admin'));
+        }
+
+        ProgramModel::setStatus($id, 'active');
+        add_log('Mempublikasikan program bantuan', '#' . $id);
+        flash('Program berhasil dipublikasikan.', 'success');
+        redirect_to(app_url($role === 'staff' ? 'program-staff' : 'program-admin'));
+    }
+
     public function close(): void {
         require_login();
         $role = current_role();
