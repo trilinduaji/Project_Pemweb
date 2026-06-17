@@ -94,7 +94,7 @@ function sipedo_load_session_from_db(): bool {
     while ($p = $res->fetch_assoc()) {
         $target = (float)$p['target'];
         $collected = (float)$p['collected'];
-        $pct = $target > 0 ? round(($collected / $target) * 100, 1) : (float)$p['pct'];
+        $pct = $target > 0 ? min(100, round(($collected / $target) * 100, 1)) : (float)$p['pct'];
         $_SESSION['programs'][] = [
             'num_id'     => (int)$p['id'],
             'id'         => $p['kode'],
