@@ -1,3 +1,4 @@
+<?php $isInactiveStaff = ($role ?? '') === 'staff' && StaffModel::isActiveUser((int)($user['db_id'] ?? 0)) === false; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -46,6 +47,11 @@
 
             <section class="content">
                 <?php show_flash(); ?>
+                <?php if ($isInactiveStaff): ?>
+                    <div class="flash flash-error">
+                        Status staff kamu sedang nonaktif. Kamu hanya bisa melihat data dan tidak bisa melakukan aksi perubahan sampai admin mengaktifkan kembali akun staff kamu.
+                    </div>
+                <?php endif; ?>
                 <?php include $pageFile; ?>
             </section>
         </main>
@@ -206,6 +212,26 @@
             : 'none';
     });
 })();
+
+<?php if ($isInactiveStaff): ?>
+(function() {
+    function showInactiveStaffWarning() {
+        alert('Status staff kamu sedang nonaktif. Kamu hanya dapat melihat data dan tidak bisa melakukan aksi perubahan sampai admin mengaktifkan kembali akun staff kamu.');
+    }
+
+    document.querySelectorAll('form').forEach(function(form) {
+        const method = (form.getAttribute('method') || 'get').toLowerCase();
+        const action = form.getAttribute('action') || '';
+        if (method !== 'post') return;
+        if (action.indexOf('route=auth/logout') !== -1) return;
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            showInactiveStaffWarning();
+        });
+    });
+})();
+<?php endif; ?>
 </script>
 </body>
 </html>
