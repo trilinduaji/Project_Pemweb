@@ -402,7 +402,14 @@ $programFallbackGradient = $program['gradient'] ?? 'linear-gradient(135deg,#0D1B
 
 <div>
 <h5 class="text-white font-bold uppercase tracking-widest text-sm mb-8">Kontak</h5>
+<p class="text-white/55 leading-relaxed mb-6">
+Jika Anda ingin mendaftar menjadi staff, hubungi email di bawah ini.
+</p>
 <ul class="space-y-6">
+<li class="flex gap-3 items-center">
+<span class="material-symbols-outlined text-white/40">badge</span>
+<a class="hover:text-white transition-colors font-semibold text-white/80" href="mailto:sipedo@gmail.com">sipedo@gmail.com</a>
+</li>
 <li class="flex gap-3">
 <span class="material-symbols-outlined text-white/40">location_on</span>
 <span class="leading-relaxed">Jl. Sudirman No. 88, Jakarta Pusat<br/>DKI Jakarta 10220</span>
